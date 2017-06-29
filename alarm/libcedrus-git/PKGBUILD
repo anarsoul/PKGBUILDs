@@ -1,0 +1,31 @@
+# Maintainer: Vasily Khoruzhick <anarsoul@gmail.com>
+
+buildarch=8
+
+pkgname=libcedrus-git
+pkgver=20160323
+_commit=9b243c4
+pkgrel=1
+pkgdesc="sunxi Video Engine library"
+arch=('aarch64')
+url="https://github.com/linux-sunxi/libcedrus"
+license=('LGPL')
+depends=()
+makedepends=('git')
+provides=("${pkgname%-git}")
+source=("git+https://github.com/linux-sunxi/${pkgname%-git}"
+	"90-sunxi-cedrus.rules")
+md5sums=('SKIP'
+	 '9d4bf897e8d9fb2420b3108606d2dfc8')
+
+build() {
+	cd "$srcdir/${pkgname%-git}"
+	make
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	make DESTDIR="$pkgdir/" prefix="/usr" install
+	install -d "${pkgdir}"/usr/lib/udev/rules.d
+	cp "${srcdir}"/90-sunxi-cedrus.rules "${pkgdir}"/usr/lib/udev/rules.d
+}
