@@ -1,0 +1,35 @@
+# Maintainer: Vasily Khoruzhick <anarsoul@gmail.com>
+
+buildarch=8
+
+pkgname=libvdpau-sunxi-git
+pkgver=0.4.r10.ebdf784
+pkgrel=1
+pkgdesc="VDPAU driver for Allwinner sunxi SoCs"
+arch=('aarch64')
+url="https://github.com/linux-sunxi/libvdpau-sunxi"
+license=('LGPL')
+depends=('libx11' 'libcedrus-git' 'pixman')
+makedepends=('git' 'libvdpau')
+provides=("${pkgname%-git}")
+source=("git+https://github.com/linux-sunxi/${pkgname%-git}"
+	"vdpau-sunxi.sh")
+md5sums=('SKIP'
+	 '4b01f2a220ae90a8b0dae48660651e1b')
+
+pkgver() {
+	cd "$srcdir/${pkgname%-git}"
+	printf "%s" "$(git describe --tags --long | sed 's/^v//;s/\([^-]*-\)g/r\1/;s/-/./g')"
+}
+
+build() {
+	cd "$srcdir/${pkgname%-git}"
+	make
+}
+
+package() {
+	cd "$srcdir/${pkgname%-git}"
+	make DESTDIR="$pkgdir/" install
+	install -d "${pkgdir}"/etc/profile.d/
+	cp "${srcdir}"/vdpau-sunxi.sh "${pkgdir}"/etc/profile.d/
+}
