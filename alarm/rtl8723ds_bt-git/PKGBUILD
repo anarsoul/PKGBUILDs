@@ -1,0 +1,32 @@
+# Maintainer: Vasily Khoruzhick <anarsoul@gmail.com>
+
+buildarch=8
+
+pkgname=rtl8723ds_bt
+pkgver=20170613
+pkgrel=1
+pkgdesc="Custom hciattacn and firmware for rtl8723ds bluetooth"
+_commit=4d96ceeee9dd7764e2a832c94fe5392a9c35680b
+_srcname=rtl8723ds_bt-${_commit}
+arch=('aarch64')
+url="https://github.com/guh/rtl8723ds_bt"
+license=('GPLv2')
+source=("https://github.com/guh/rtl8723ds_bt/archive/${_commit}.tar.gz")
+md5sums=('55465bb4018a5b510ee1ffd02a1edcdf')
+
+prepare() {
+  cd "${srcdir}"/${_srcname}
+  sed -i 's/sbin/bin/' Makefile
+}
+
+build() {
+  cd "${srcdir}"/${_srcname}
+  make
+}
+
+package() {
+  cd "${srcdir}"/${_srcname}
+  mkdir -p "${pkgdir}"/usr
+  make install PREFIX="${pkgdir}"/usr/
+  rm -f "${pkgdir}"/usr/bin/start-rtl-bluetooth
+}
