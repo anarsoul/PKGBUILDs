@@ -1,0 +1,62 @@
+# Maintainer: Vasily Khoruzhick <anarsoul@gmail.com>
+
+buildarch=8
+
+pkgname=('uboot-pine64-bin'
+         'uboot-pinebook-bin'
+         'uboot-sopine-bin'
+         'uboot-pine64-bin-common')
+pkgver=20170620
+pkgrel=1
+_commit=78d7879e50661c7b6624f7a8e1ceda6e222184bb
+_srcname=boot-tools-${_commit}
+arch=('aarch64')
+url="https://github.com/ayufan-pine64/boot-tools"
+license=('GPLv2')
+source=("https://github.com/ayufan-pine64/boot-tools/archive/${_commit}.tar.gz")
+md5sums=('1ecf3ea16bda626bad099aad701ffcdb')
+
+package_uboot-pine64-bin-common() {
+  mkdir -p "${pkgdir}"/boot/bat
+  mkdir -p "${pkgdir}"/boot/pine64/
+  cp "${srcdir}"/${_srcname}/boot/bat/*.bmp  "${pkgdir}"/boot/bat/
+  cp "${srcdir}"/${_srcname}/boot/{uEnv.txt,boot.cmd,boot.scr,bootlogo.bmp,font24.sft,font32.sft} "${pkgdir}"/boot
+  cp "${srcdir}"/${_srcname}/boot/pine64/*.dtb  "${pkgdir}"/boot/pine64/
+  sed -i 's/kernel_filename=kernel/kernel_filename=Image/' "${pkgdir}"/boot/uEnv.txt
+  sed -i 's/initrd_filename=ramdisk.img/initrd_filename=initramfs-linux.img/' "${pkgdir}"/boot/uEnv.txt
+}
+
+package_uboot-pine64-bin() {
+  pkgdesc="u-boot for Pine64"
+  conflicts=("uboot-pinebook-bin" "uboot-sopine-bin")
+  depends=("uboot-pine64-bin-common")
+  install="uboot-pine64-bin.install"
+
+  mkdir -p "${pkgdir}"/boot/pine64
+  cp "${srcdir}"/${_srcname}/boot/pine64/boot0-pine64-plus.bin "${pkgdir}"/boot/pine64/boot0.bin
+  cp "${srcdir}"/${_srcname}/boot/pine64/u-boot-pine64-plus.bin "${pkgdir}"/boot/pine64/u-boot.bin
+}
+
+package_uboot-pinebook-bin() {
+  pkgdesc="u-boot for Pinebook"
+  conflicts=("uboot-pine64-bin" "uboot-sopine-bin")
+  depends=("uboot-pine64-bin-common")
+  install="uboot-pine64-bin.install"
+
+  mkdir -p "${pkgdir}"/boot
+  mkdir -p "${pkgdir}"/boot/pine64
+  cp "${srcdir}"/${_srcname}/boot/pine64/boot0-pine64-pinebook.bin "${pkgdir}"/boot/pine64/boot0.bin
+  cp "${srcdir}"/${_srcname}/boot/pine64/u-boot-pine64-pinebook.bin "${pkgdir}"/boot/pine64/u-boot.bin
+}
+
+package_uboot-sopine-bin() {
+  pkgdesc="u-boot for SOPINE"
+  conflicts=("uboot-pine64-bin" "uboot-pinebook-bin")
+  depends=("uboot-pine64-bin-common")
+  install="uboot-pine64-bin.install"
+
+  mkdir -p "${pkgdir}"/boot
+  mkdir -p "${pkgdir}"/boot/pine64
+  cp "${srcdir}"/${_srcname}/boot/pine64/boot0-pine64-sopine.bin "${pkgdir}"/boot/pine64/boot0.bin
+  cp "${srcdir}"/${_srcname}/boot/pine64/u-boot-pine64-sopine.bin "${pkgdir}"/boot/pine64/u-boot.bin
+}
