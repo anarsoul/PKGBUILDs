@@ -1,0 +1,27 @@
+_gitname=rtl8723cs
+pkgname=dkms-rtl8723cs
+pkgver=2017.12.24
+pkgrel=1
+pkgdesc="Linux driver for Realtek RTL8723CS chip"
+arch=('any')
+url="https://github.com/anarsoul/$_gitname"
+license=('GPL')
+install=dkms-rtl8723cs.install
+depends=('linux>4.14' 'dkms' 'linux-headers>4.14')
+makedepends=('git')
+options=(!strip)
+source=("git+${url}.git" "dkms.conf")
+
+md5sums=('SKIP' '7bd926532bc021b116f82bf1b049c8bf')
+
+pkgver() {
+   cd "$srcdir/$_gitname"
+   git log -1 --format="%cd" --date=short | sed 's|-|.|g'
+}
+
+package() {
+   cp dkms.conf "$srcdir/$_gitname/"
+   cd "$srcdir/$_gitname"
+   mkdir -p "$pkgdir/usr/src/rtl8723cs-$pkgver" 
+   cp -r . "$pkgdir/usr/src/rtl8723cs-$pkgver" 
+}
