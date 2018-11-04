@@ -6,12 +6,12 @@ buildarch=8
 _ver=4.19
 
 pkgbase=linux-pine64
-_commit=59197ec5632d29d173aae2fbe6c92402fc2f0a58
+_commit=b325cd227f2426f938a08168b5c1b40111562e9e
 _srcname=linux-2.6-${_commit}
 _kernelname=${pkgbase#linux}
 _desc="AArch64 multi-platform (release candidate) with Pine64 support"
 pkgver=${_ver}
-pkgrel=1
+pkgrel=2
 arch=('aarch64')
 url="http://www.kernel.org/"
 license=('GPL2')
@@ -24,8 +24,8 @@ source=("https://github.com/anarsoul/linux-2.6/archive/${_commit}.tar.gz"
         'kernel_data_key.vbprivk'
         'linux.preset'
         '99-linux.hook')
-md5sums=('94cfe439e8f528bf5899321619107073'
-         'd65240054480037cf5a6043fb8f1293f'
+md5sums=('a957441aa997dec1652cacc8ecc582cd'
+         'cfd296c625387b20231243e1a079b655'
          '11a4f35c50f0bde59c30182aa7b797b7'
          '61c5ff73c136ed07a7aadbf58db3d96a'
          '584777ae88bce2c5659960151b64c7d8'
