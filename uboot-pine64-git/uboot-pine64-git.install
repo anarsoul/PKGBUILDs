@@ -4,7 +4,7 @@ flash_uboot() {
   echo "# dd if=/boot/u-boot-sunxi-with-spl-sopine.bin of=/dev/mmcblk0 bs=8k seek=1 for SoPine SD"
   echo "# dd if=/boot/u-boot-sunxi-with-spl-sopine.bin of=/dev/mmcblk2 bs=8k seek=1 for SoPine eMMC"
   echo "# dd if=/boot/u-boot-sunxi-with-spl-pinebook.bin of=/dev/mmcblk0 bs=8k seek=1 for Pinebook SD"
-  echo "# dd if=/boot/u-boot-sunxi-with-spl-pinebook.bin of=/dev/mmcblk2 bs=8k seek=1 for Pinebok eMMC"
+  echo "# dd if=/boot/u-boot-sunxi-with-spl-pinebook.bin of=/dev/mmcblk2 bs=8k seek=1 for Pinebook eMMC"
 }
 
 ## arg 1:  the new package version

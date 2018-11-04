@@ -4,22 +4,22 @@
 buildarch=8
 
 pkgname=uboot-pine64-git
-pkgver=v2018.09.rc3.r32.g3da7a80d31
+pkgver=v2018.11.rc3.r26.gcba3c554f8
 pkgrel=1
 pkgdesc="U-Boot for Pine64"
 arch=('aarch64')
 url='http://www.denx.de/wiki/U-Boot/WebHome'
 license=('GPL')
-makedepends=('bc' 'git' 'python' 'swig' 'dtc145')
+makedepends=('bc' 'git' 'python' 'swig' 'dtc')
 install=${pkgname}.install
-source=('git+https://github.com/anarsoul/u-boot-pine64.git#branch=pinebook-wip-20180909'
-        'git+https://github.com/anarsoul/arm-trusted-firmware.git#branch=allwinner'
-        '0001-ATF-set-fno-stack-protector.patch'
+source=('git+https://github.com/anarsoul/u-boot-pine64.git#branch=pinebook-wip-20181103'
+        'git+https://github.com/ARM-software/arm-trusted-firmware.git'
+	'0001-ATF-set-fno-stack-protector.patch'
         'boot.txt'
         'mkscr')
 md5sums=('SKIP'
          'SKIP'
-         '1d3b375fa978f3297d0fd3316f89e68a'
+         '3213c96ce0713249719dc73d58395620'
          '616ec8961a5304f3e03a4c115a3aed09'
          '021623a04afd29ac3f368977140cfbfd')
 
@@ -40,8 +40,8 @@ build() {
 
   cd arm-trusted-firmware
 
-  make PLAT=sun50iw1p1 DEBUG=1 bl31
-  cp build/sun50iw1p1/debug/bl31.bin ../u-boot-pine64
+  make PLAT=sun50i_a64 DEBUG=1 bl31
+  cp build/sun50i_a64/debug/bl31.bin ../u-boot-pine64
 
   cd ../u-boot-pine64
 
