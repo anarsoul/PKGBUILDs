@@ -1,0 +1,19 @@
+flash_uboot() {
+  echo "Install new bootloader by running:"
+  echo "# dd if=/boot/u-boot-sunxi-with-spl-pine64.bin of=/dev/mmcblk0 bs=8k seek=1 for Pine64 SD"
+  echo "# dd if=/boot/u-boot-sunxi-with-spl-sopine.bin of=/dev/mmcblk0 bs=8k seek=1 for SoPine SD"
+  echo "# dd if=/boot/u-boot-sunxi-with-spl-sopine.bin of=/dev/mmcblk2 bs=8k seek=1 for SoPine eMMC"
+  echo "# dd if=/boot/u-boot-sunxi-with-spl-pinebook.bin of=/dev/mmcblk0 bs=8k seek=1 for Pinebook SD"
+  echo "# dd if=/boot/u-boot-sunxi-with-spl-pinebook.bin of=/dev/mmcblk2 bs=8k seek=1 for Pinebok eMMC"
+}
+
+## arg 1:  the new package version
+post_install() {
+  flash_uboot
+}
+
+## arg 1:  the new package version
+## arg 2:  the old package version
+post_upgrade() {
+  flash_uboot
+}

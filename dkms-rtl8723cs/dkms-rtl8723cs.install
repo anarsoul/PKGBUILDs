@@ -1,0 +1,11 @@
+post_install() {
+   dkms install "rtl8723cs/2018.09.11"
+}
+
+post_upgrade() {
+   post_install
+}
+
+pre_remove() {
+   dkms remove "rtl8723cs/2018.09.11" --all
+}

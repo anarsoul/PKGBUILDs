@@ -1,0 +1,73 @@
+# U-Boot: Pine64
+# Maintainer: Kevin Mihelich <kevin@archlinuxarm.org>
+
+buildarch=8
+
+pkgname=uboot-pine64-git
+pkgver=v2018.09.rc3.r32.g3da7a80d31
+pkgrel=1
+pkgdesc="U-Boot for Pine64"
+arch=('aarch64')
+url='http://www.denx.de/wiki/U-Boot/WebHome'
+license=('GPL')
+makedepends=('bc' 'git' 'python' 'swig' 'dtc145')
+install=${pkgname}.install
+source=('git+https://github.com/anarsoul/u-boot-pine64.git#branch=pinebook-wip-20180909'
+        'git+https://github.com/anarsoul/arm-trusted-firmware.git#branch=allwinner'
+        '0001-ATF-set-fno-stack-protector.patch'
+        'boot.txt'
+        'mkscr')
+md5sums=('SKIP'
+         'SKIP'
+         '1d3b375fa978f3297d0fd3316f89e68a'
+         '616ec8961a5304f3e03a4c115a3aed09'
+         '021623a04afd29ac3f368977140cfbfd')
+
+pkgver() {
+  cd u-boot-pine64
+  git describe --long | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd u-boot-pine64
+
+  cd ../arm-trusted-firmware
+  git apply ../0001-ATF-set-fno-stack-protector.patch
+}
+
+build() {
+  unset CFLAGS CXXFLAGS CPPFLAGS LDFLAGS
+
+  cd arm-trusted-firmware
+
+  make PLAT=sun50iw1p1 DEBUG=1 bl31
+  cp build/sun50iw1p1/debug/bl31.bin ../u-boot-pine64
+
+  cd ../u-boot-pine64
+
+  make distclean
+  make pine64_plus_defconfig
+  echo 'CONFIG_IDENT_STRING=" Arch Linux ARM"' >> .config
+  make EXTRAVERSION=-${pkgrel}
+  cat spl/sunxi-spl.bin u-boot.itb > u-boot-sunxi-with-spl-pine64.bin
+
+  make sopine_baseboard_defconfig
+  echo 'CONFIG_IDENT_STRING=" Arch Linux ARM"' >> .config
+  make EXTRAVERSION=-${pkgrel}
+  cat spl/sunxi-spl.bin u-boot.itb > u-boot-sunxi-with-spl-sopine.bin
+
+  make pinebook_defconfig
+  echo 'CONFIG_IDENT_STRING=" Arch Linux ARM"' >> .config
+  make EXTRAVERSION=-${pkgrel}
+  cat spl/sunxi-spl.bin u-boot.itb > u-boot-sunxi-with-spl-pinebook.bin
+}
+
+package() {
+  cd u-boot-pine64
+
+  mkdir -p "${pkgdir}"/boot
+
+  cp u-boot-sunxi-with-spl-{pine64,sopine,pinebook}.bin "${pkgdir}"/boot
+  cp ../boot.txt ../mkscr "${pkgdir}"/boot
+  tools/mkimage -A arm -O linux -T script -C none -n "U-Boot boot script" -d "${pkgdir}"/boot/boot.txt "${pkgdir}"/boot/boot.scr
+}
