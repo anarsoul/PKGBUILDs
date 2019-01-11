@@ -4,7 +4,7 @@
 buildarch=8
 
 pkgname=uboot-pine64-git
-pkgver=v2018.11.rc3.r26.gcba3c554f8
+pkgver=v2019.01.rc3.r35.g64abfc9b6b
 pkgrel=1
 pkgdesc="U-Boot for Pine64"
 arch=('aarch64')
@@ -12,8 +12,8 @@ url='http://www.denx.de/wiki/U-Boot/WebHome'
 license=('GPL')
 makedepends=('bc' 'git' 'python' 'swig' 'dtc')
 install=${pkgname}.install
-source=('git+https://github.com/anarsoul/u-boot-pine64.git#branch=pinebook-wip-20181103'
-        'git+https://github.com/ARM-software/arm-trusted-firmware.git'
+source=('git+https://github.com/u-boot/u-boot.git#commit=64abfc9b6bb3'
+        'git+https://github.com/ARM-software/arm-trusted-firmware.git#commit=63b9b5425f15'
 	'0001-ATF-set-fno-stack-protector.patch'
         'boot.txt'
         'mkscr')
@@ -24,12 +24,12 @@ md5sums=('SKIP'
          '021623a04afd29ac3f368977140cfbfd')
 
 pkgver() {
-  cd u-boot-pine64
+  cd u-boot
   git describe --long | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
 }
 
 prepare() {
-  cd u-boot-pine64
+  cd u-boot
 
   cd ../arm-trusted-firmware
   git apply ../0001-ATF-set-fno-stack-protector.patch
@@ -41,9 +41,9 @@ build() {
   cd arm-trusted-firmware
 
   make PLAT=sun50i_a64 DEBUG=1 bl31
-  cp build/sun50i_a64/debug/bl31.bin ../u-boot-pine64
+  cp build/sun50i_a64/debug/bl31.bin ../u-boot
 
-  cd ../u-boot-pine64
+  cd ../u-boot
 
   make distclean
   make pine64_plus_defconfig
@@ -63,7 +63,7 @@ build() {
 }
 
 package() {
-  cd u-boot-pine64
+  cd u-boot
 
   mkdir -p "${pkgdir}"/boot
 
