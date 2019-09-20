@@ -1,7 +1,7 @@
 # mkinitcpio preset file for the 'linux-aarch64-rc' package
 
 ALL_config="/etc/mkinitcpio.conf"
-ALL_kver="5.0.0-1-ARCH"
+ALL_kver="5.3.0-1-ARCH"
 
 PRESETS=('default' 'fallback')
 
