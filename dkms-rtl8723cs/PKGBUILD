@@ -1,6 +1,6 @@
 _gitname=rtl8723cs
 pkgname=dkms-rtl8723cs
-pkgver=2019.08.26
+pkgver=2020.03.02
 pkgrel=1
 pkgdesc="Linux driver for Realtek RTL8723CS chip"
 arch=('any')

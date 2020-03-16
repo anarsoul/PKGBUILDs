@@ -1,5 +1,5 @@
 post_install() {
-   dkms install "rtl8723cs/2018.11.07"
+   dkms install "rtl8723cs/2020.03.15"
 }
 
 post_upgrade() {
@@ -7,5 +7,5 @@ post_upgrade() {
 }
 
 pre_remove() {
-   dkms remove "rtl8723cs/2018.11.07" --all
+   dkms remove "rtl8723cs/2020.03.15" --all
 }
