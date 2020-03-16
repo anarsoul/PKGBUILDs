@@ -3,10 +3,10 @@
 
 buildarch=8
 
-_ver=5.3
+_ver=5.6
 
 pkgbase=linux-pine64
-_commit=c1533c70af80ea1cb25348e4931455e932f26af1
+_commit=7d3253c0d08ba3cb09b99bb7e39f67d2cd3a6252
 _srcname=linux-2.6-${_commit}
 _kernelname=${pkgbase#linux}
 _desc="AArch64 multi-platform (release candidate) with Pine64 support"
@@ -24,12 +24,12 @@ source=("https://github.com/anarsoul/linux-2.6/archive/${_commit}.tar.gz"
         'kernel_data_key.vbprivk'
         'linux.preset'
         '99-linux.hook')
-md5sums=('847ea7f473798fd9e8b1cbdcb1edc686'
-         '839cef4ded51e8b33884eb49226d52ba'
+md5sums=('a2a5f2c2ed6ba92dbdff7ff8ab1684f2'
+         'fea32f8901bf07c5ab4b0bcde26d287a'
          '11a4f35c50f0bde59c30182aa7b797b7'
          '61c5ff73c136ed07a7aadbf58db3d96a'
          '584777ae88bce2c5659960151b64c7d8'
-         '1bcc6c5d103b31523c5077b7c89f2b79'
+         '317a21b4d0d86bb4415a54f4e235eb21'
          '1d4477026533efaa0358a40855d50a83')
 
 prepare() {
